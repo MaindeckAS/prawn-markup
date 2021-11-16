@@ -4,7 +4,7 @@ module Prawn
   module Markup
     module Processor::Blocks
       def self.prepended(base)
-        base.known_elements.push('p', 'br', 'div', 'hr')
+        base.known_elements.push("p", "br", "div", "hr")
       end
 
       def start_br
@@ -62,8 +62,10 @@ module Prawn
 
       def add_paragraph
         text = dump_text
-        text.gsub!(/[^\n]/, '') if text.strip.empty?
+        text.gsub!(/[^\n]/, "") if text.strip.empty?
         if handle_empty_paragraph_as_new_line && text.empty?
+          add_bottom_margin
+          add_formatted_text("\n", text_options)
           put_bottom_margin(text_margin_bottom)
         elsif !text.empty?
           add_bottom_margin
@@ -96,8 +98,8 @@ module Prawn
 
       def with_font(options)
         pdf.font(options[:font] || pdf.font.family,
-                 size: options[:size],
-                 style: options[:style]) do
+          size: options[:size],
+          style: options[:style]) do
           return yield
         end
       end
