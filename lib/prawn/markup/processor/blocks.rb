@@ -63,7 +63,9 @@ module Prawn
       def add_paragraph
         text = dump_text
         text.gsub!(/[^\n]/, '') if text.strip.empty?
-        unless text.empty?
+        if handle_empty_paragraph_as_new_line && text.empty?
+          put_bottom_margin(text_margin_bottom)
+        elsif !text.empty?
           add_bottom_margin
           add_formatted_text(text, text_options)
           put_bottom_margin(text_margin_bottom)
@@ -150,6 +152,10 @@ module Prawn
         {
           inline_format: true
         }
+      end
+
+      def handle_empty_paragraph_as_new_line
+        text_options[:handle_empty_paragraph_as_new_line] || false
       end
     end
   end

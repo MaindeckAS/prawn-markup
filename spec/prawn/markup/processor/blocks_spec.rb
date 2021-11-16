@@ -106,6 +106,21 @@ RSpec.describe Prawn::Markup::Processor::Blocks do
       expect(text.strings).to eq(%w[HELLO WORLD])
       expect(top_positions).to eq([top, top - line].map(&:round))
     end
+  end
 
+  context 'with paragraph options' do
+    let(:options) do
+      {
+        text: {
+          handle_empty_paragraph_as_new_line: true
+        }
+      }
+    end
+
+    it 'treats empty paragraphs as new lines if configured' do
+      processor.parse("<div>hello<p></p>world</div>")
+      expect(text.strings).to eq(%w[hello world])
+      expect(top_positions).to eq([top, top - (line + p_gap)].map(&:round))
+    end
   end
 end
