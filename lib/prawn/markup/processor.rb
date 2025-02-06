@@ -49,7 +49,7 @@ module Prawn
 
         reset
         html = Prawn::Markup::Normalizer.new(html).normalize
-        Nokogiri::HTML::SAX::Parser.new(self).parse(html) { |ctx| ctx.recovery = true }
+        Nokogiri::HTML::SAX::Parser.new(self, 'UTF-8').parse(html) { |ctx| ctx.recovery = true }
       end
 
       def start_element(name, attrs = [])
